@@ -4,7 +4,7 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return HttpResponse("Hello, world. NFL home page.")
 
 def nfl_home(request):
     return HttpResponse("nfl_home")
