@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}NFL schedule{% endblock title %}
+9/11/2016 1:00:00 PM
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <table class="table">
+                <thead> 
+                    <tr> 
+
+                       <!--  <th>Week</th>  -->
+                        <th>Date</th> 
+                        <th>Game Number</th> 
+                        <th>Game</th>
+                        <th>Spread</th>
+                        <th>ML</th>
+                        <th>Bet</th>
+                    </tr> 
+                </thead> 
+                <tbody>
+                {% for d in data %}
+                    {% if d.Week == 1 or d.Week == 2 %}
+                    <tr>
+                       <!--  <td>{{ d.Week }}</td> -->
+                        <td>{{ d.Date }}</td>
+                        <td>{{ d.GameKey }}</td>
+                        <td>{{ d.AwayTeam }}<br>{{ d.HomeTeam }}</td>
+                        {% if d.PointSpread > 0 %}
+                            <td>-{{ d.PointSpread }}<br>{{ d.OverUnder }}</td>
+                        {% elif d.PointSpread == 0.0 %}
+                            <td>{{ d.OverUnder }}<br>even</td>
+                        {% else %}
+                            <td>{{ d.OverUnder }}<br>{{ d.PointSpread }}</td>
+                        {% endif %}
+                        {% if d.AwayTeamMoneyLine > 0 %}
+                            <td>+{{ d.AwayTeamMoneyLine }}<br>{{ d.HomeTeamMoneyLine }}</td>
+                        {% elif d.HomeTeamMoneyLine > 0 %}
+                            <td>{{ d.AwayTeamMoneyLine }}<br>+{{ d.HomeTeamMoneyLine }}</td>
+                        {% else %}
+                            <td>{{ d.AwayTeamMoneyLine }}<br>{{ d.HomeTeamMoneyLine }}</td>
+                        {% endif %}
+                        <td><button>Board</button><br><button>Create</button></td>
+                        
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
