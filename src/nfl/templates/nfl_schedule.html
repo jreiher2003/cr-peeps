@@ -36,7 +36,7 @@
                 </thead> 
                 <tbody>
                 {% for d in data %}
-                    {% if d.Date|dateify > dt %}
+                    {% if d.Date|dateify > dt and d.PointSpread != None %}
                     <tr>
                         <td>{{ d.Date|dateify }}</td>
                         <td>{{ d.GameKey }}</td>
@@ -61,7 +61,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <div class="pagination">
+            <!-- <div class="pagination">
                 <span class="step-links">
                     {% if data.has_previous %}
                         <a href="?page={{ data.previous_page_number }}">previous</a>
@@ -75,7 +75,7 @@
                         <a href="?page={{ data.next_page_number }}">next</a>
                     {% endif %}
                 </span>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
