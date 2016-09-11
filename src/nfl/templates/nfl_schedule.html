@@ -1,15 +1,30 @@
 {% extends "base.html" %}
+{% load dateify %}
 {% block title %}NFL schedule{% endblock title %}
-9/11/2016 1:00:00 PM
+{% block style %}
+.button {
+    border-style: solid;
+  border-width : 1px 1px 1px 1px;
+  text-decoration : none;
+  padding : 4px;
+  border-color : #000000
+}
+.create {
+    <!-- background-color: blue; -->
+}
+.board {
+    <!-- background-color: red; -->
+}
+
+
+{% endblock %}
 {% block content %}
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <table class="table">
-                <thead> 
                     <tr> 
-
-                       <!--  <th>Week</th>  -->
                         <th>Date</th> 
                         <th>Game Number</th> 
                         <th>Game</th>
@@ -17,13 +32,13 @@
                         <th>ML</th>
                         <th>Bet</th>
                     </tr> 
+                <thead> 
                 </thead> 
                 <tbody>
                 {% for d in data %}
-                    {% if d.Week == 1 or d.Week == 2 %}
+                    {% if d.Date|dateify > dt %}
                     <tr>
-                       <!--  <td>{{ d.Week }}</td> -->
-                        <td>{{ d.Date }}</td>
+                        <td>{{ d.Date|dateify }}</td>
                         <td>{{ d.GameKey }}</td>
                         <td>{{ d.AwayTeam }}<br>{{ d.HomeTeam }}</td>
                         {% if d.PointSpread > 0 %}
@@ -40,16 +55,28 @@
                         {% else %}
                             <td>{{ d.AwayTeamMoneyLine }}<br>{{ d.HomeTeamMoneyLine }}</td>
                         {% endif %}
-                        <td><button>Board</button><br><button>Create</button></td>
-                        
+                        <td><a class="board button" href="{% url 'nfl:nfl_public_board' %}">Board</a><a class="create button" href="{% url 'nfl:nfl_create_bet' %}">Create</a></td>
                     </tr>
-                    {% endif %}
+                     {% endif %}
                 {% endfor %}
                 </tbody>
             </table>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if data.has_previous %}
+                        <a href="?page={{ data.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ data.number }} of {{ data.paginator.num_pages }}.
+                    </span>
+
+                    {% if data.has_next %}
+                        <a href="?page={{ data.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
     </div>
 </div>
-
-
 {% endblock content %}
